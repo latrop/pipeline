@@ -448,22 +448,24 @@ if __name__ == "__main__":
     os.remove("segm.fits")
     os.remove("galaxy_only.fits")
     os.remove("field.cat")
-    if not exists("./results/"):
-        os.makedirs("./results")
-    if not exists("./results/intermediate"):
-        os.makedirs("./results/intermediate")
-    move("mask.fits", "./results/mask.fits")
-    move("pa_gauss.png", "./results/intermediate/pa_gauss.png")
+    if not exists("./%s_results/" % (objName)):
+        os.makedirs("./%s_results" % (objName))
+    if not exists("./%s_results/intermediate" % (objName)):
+        os.makedirs("./%s_results/intermediate" % (objName))
+    move("mask.fits", "./%s_results/mask.fits" % (objName))
+    move("pa_gauss.png", "./%s_results/intermediate/pa_gauss.png" % (objName))
     for band in bandList:
-        move("mask_%s.dat" % (band), "./results/intermediate/mask_%s.dat" % (band))
-        move("rotated_%s.fits" % (band), "./results/intermediate/rotated_%s.fits" % (band))
-        move("cropped_%s.fits" % (band), "./results/cropped_%s.fits" % (band))
-        move("mask_%s.reg" % (band), "./results/intermediate/mask_%s.reg" % (band))
-        move("mask_%s.fits" % (band), "./results/intermediate/mask_%s.fits" % (band))
-        move("back_clean_%s.fits" % (band), "./results/intermediate/back_clean_%s.fits" % (band))
+        move("mask_%s.dat" % (band), "./%s_results/intermediate/mask_%s.dat" % (objName, band))
+        move("rotated_%s.fits" % (band), "./%s_results/intermediate/rotated_%s.fits" % (objName, band))
+        move("cropped_%s.fits" % (band), "./%s_results/cropped_%s.fits" % (objName, band))
+        move("mask_%s.reg" % (band), "./%s_results/intermediate/mask_%s.reg" % (objName, band))
+        move("mask_%s.fits" % (band), "./%s_results/intermediate/mask_%s.fits" % (objName, band))
+        move("back_clean_%s.fits" % (band), "./%s_results/intermediate/back_clean_%s.fits" % (objName, band))
         if args.norm:
-            move("norm_%s.fits" % (band), "./results/norm_%s.fits" % (band))
+            move("norm_%s.fits" % (band), "./%s_results/norm_%s.fits" % (objName, band))
         if args.combined:
-            move("combined_%s.fits" % (band), "./results/combined_%s.fits" % (band))
-    shutil.make_archive("./results/intermediate", "bztar", base_dir="./results/intermediate")
-    shutil.rmtree("results/intermediate")
+            move("combined_%s.fits" % (band), "./%s_results/combined_%s.fits" % (objName, band))
+    shutil.make_archive("./%s_results/intermediate" % (objName),
+                        "bztar",
+                        base_dir="./%s_results/intermediate" % (objName))
+    shutil.rmtree("%s_results/intermediate" % (objName))
