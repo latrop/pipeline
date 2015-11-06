@@ -161,8 +161,8 @@ def fits_mask(maskASCIIFile, fitsDataFile, fitsMaskFile):
     
 
 if __name__ == "__main__":
-    regFileName = "./results/mask.reg"  #sys.argv[1]
-    maskFileName = "./results/mask.dat" #sys.argv[2]
-    fitsFileName = "./results/cropped.fits" #sys.argv[3]
+    regFileName = "dust.reg"   # "./results/mask.reg"  
+    maskFileName = "dust.dat"  # "./results/mask.dat" 
+    fitsFileName = sys.argv[1]  #"./results/cropped.fits" 
     regions2mask(regFileName, maskFileName, fitsFileName)
-    fits_mask(maskFileName, fitsFileName, "./results/mask.fits")
+    fits_mask(maskFileName, fitsFileName, "dust_mask.fits")

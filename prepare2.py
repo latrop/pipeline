@@ -149,8 +149,8 @@ def get_pa(xCen, yCen, sePA, ellA, ellB):
         xSizeRot, ySizeRot = rotData.shape
         # Find number of galaxy pixels located inside of horisontal slice of given width
         galPixelsInSlice = 0
-        upperEdge = int(xCenRot + sliceWidth)
-        lowerEdge = int(xCenRot - sliceWidth)
+        upperEdge = int(yCenRot + sliceWidth)
+        lowerEdge = int(yCenRot - sliceWidth)
         for sliceLoc in xrange(lowerEdge, upperEdge+1):
             row = rotData[sliceLoc]
             galPixelsInSlice += len(row[where(row != 0)])
@@ -267,6 +267,8 @@ if __name__ == "__main__":
                         help="Create combined images with mask and data")
     parser.add_argument("--norm", action="store_true", default=False,
                         help="Create normalised images")
+    parser.add_argument("--cent", action="store_true", default=False,
+                        help="Center images manually")
     args = parser.parse_args()
 
     objName = args.objName
@@ -391,6 +393,9 @@ if __name__ == "__main__":
     for line in open("crop_box.reg"):
         if "box" in line:
             params = line[4:-2].split(",")
+            if args.cent:  # use user defined center of the galaxy
+                meanXCenRot = float(params[0])
+                meanYCenRot = float(params[1])
             cropWidth = float(params[2]) / 2.0
             cropHeight = float(params[3]) / 2.0
     # 5) Finally crop images
